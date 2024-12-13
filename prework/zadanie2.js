@@ -78,10 +78,10 @@ const removeItem = (event) => {
 const submitForm = (event) => {
   event.preventDefault()
 
-  // tasks.push({
-  //   id: generateId(),
-  //   name: event.target.name.value
-  // })
+  tasks.push({
+    id: generateId(),
+    name: event.target.name.value
+  })
 
   // // metoda localStorage.setItem sluzy do tego zeby zapisywac do pamieci przegladarki
   // // localStorage nie dziala w srodowisku node.js
@@ -89,13 +89,8 @@ const submitForm = (event) => {
 
   
   // spread operator uzywa sie do dodawania elementow do tablicy (raczej nie uzywa sie metody push)
-  localStorage.setItem(
-    'tasks', 
-    JSON.stringify([...tasks, {
-      id: generateId(),
-      name: event.target.name.value
-    }])
-  )
+
+  localStorage.setItem('tasks', JSON.stringify(tasks))
 
   renderElements();
   inputName.value = ''

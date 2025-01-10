@@ -17,12 +17,19 @@ import Link from "next/link";
 
 // Server Components
 
-export default async function Dashboard() {
+export default async function Dashboard({
+  searchParams
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+
+  // https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional
+  const { search } = await searchParams
+  
   const { data } = await getClient().query<getRepositoriesQuery<Repository[]>>({ query : GET_REPOSITORIES })
   const repositories = data.search.nodes
 
   // const {data: {search : { nodes: repositories }}} = await getClient().query<getRepositoriesQuery<Repository[]>>({ query: GET_REPOSITORIES })
-  // const repositories = nodes
 
   return (
     <div>

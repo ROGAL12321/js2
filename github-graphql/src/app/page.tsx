@@ -1,4 +1,9 @@
+"use client"
+
+import { useState } from 'react'
+
 export default function Home() {
+  const [inputValue, setInputValue] = useState('')
   // const { navigate } = useNavigate()
 
 
@@ -22,7 +27,7 @@ export default function Home() {
       */}
 
       <form>
-        <input className=""></input>
+        <input className="" onChange={e => setInputValue(e.target.value)}></input>
         <button>Search</button>
       </form>
       

@@ -1,5 +1,6 @@
 import { HttpLink, InMemoryCache, ApolloClient, gql } from "@apollo/client";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support";
+import Link from "next/link";
 
 // sa 5 metody budowania aplikacji, 4 z nich sa wspierane przez Nexta
 
@@ -54,14 +55,39 @@ const query = gql`
   }
 `
 
-export default async function Dashboard() {
-  const { data } = await getClient().query({ query })
+type Repository = {
+  id: string
+  name: string
+  url: string
+  __typename: string
+}
 
-  console.log(data);
+type GqlResponse<T> = {
+  nodes: T
+}
+
+type getRepositoriesQuery<T> = {
+  search: GqlResponse<T>
+}
+
+export default async function Dashboard() {
+  const { data } = await getClient().query<getRepositoriesQuery<Repository[]>>({ query })
+  const repositories = data.search.nodes
 
   return (
     <div>
-      Hello World
+      Repositories
+
+      <ul>
+        {
+          repositories.map(repository => (
+            <li key={repository.id} className="py-2">
+              {repository.name}
+              <Link href={repository.url} className="p-20">Go to repository</Link>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   )
 }
